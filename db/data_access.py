@@ -27,10 +27,10 @@ def getInfoOfYearData(year):
 						 data AS D
 						 ON CD.data_id = D.data_id
 					WHERE
-						CD.year = 2060''')
+						CD.year = ''' + year)
 
 		ciudad = []
-		for row in cur:
+		for row in cur: 
 			ciudad.append(row)
 
 		cur.close()
