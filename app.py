@@ -1,6 +1,10 @@
 from flask import Flask, render_template, request
 from flask_googlemaps import GoogleMaps
-from flask_googlemaps import Map, icons
+from flask_googlemaps import Map
+from flask import jsonify
+from db.data_access import getInfoOfYear
+from flask import request
+from flask import json
 
 app = Flask(__name__, template_folder="templates")
 
@@ -38,3 +42,13 @@ def fullmap():
         fullmap=fullmap,
         GOOGLEMAPS_KEY=request.args.get('apikey')
     )
+
+@app.route('/getInfoOfYear', methods=['POST'])
+def getInfoOfYear():
+    data = request.json
+    parsed_data = json.loads(data)[0]
+    getInfoOfYear(parsed_data["year"])
+
+if __name__ == '__main__':
+    # Add obtain information
+    app.run(port=5000, debug=True)
