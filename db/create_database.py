@@ -1,7 +1,7 @@
 import psycopg2
 from config import config
 
-def connect():
+def create_tables():
 	conn = None
 	try:
 		params = config()
@@ -18,16 +18,14 @@ def connect():
 		print('Creating table city_data')
 		cur.execute('CREATE TABLE IF NOT EXISTS City_data ( city_id INTEGER REFERENCES City(city_id), data_id INTEGER REFERENCES Data(data_id), year INTEGER NOT NULL, PRIMARY KEY (city_id, data_id) );')
 
-		db_version = cur.fetchone()
-		print(db_version)
-
+		conn.commit()
 		cur.close()
 	except (Exception, psycopg2.DatabaseError) as error:
 		print(error)
 	finally:
 		if conn is not None:
 			conn.close()
-			print('Database connection clsoed')
+			print('Database connection closed')
 
 if __name__ == '__main__':
-    connect()
+    create_tables()
